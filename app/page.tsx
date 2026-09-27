@@ -67,3 +67,21 @@ export default function Home() {
     </div>
   );
 }
+'use client';
+
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
+
+export default function CustomerList() {
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const { data } = await supabase.from('customers').select('*');
+      if (data) setCustomers(data);
+    }
+    loadData();
+  }, []);
+
+  return <div>Total Customers: {customers.length}</div>;
+}
